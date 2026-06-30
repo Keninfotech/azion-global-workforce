@@ -56,10 +56,23 @@ function RouteSwitcher() {
 export default function App() {
   const [loading, setLoading] = useState(true);
 
+useEffect(() => {
+  const timer = setTimeout(() => {
+    setLoading(false);
+  }, 4200); // slightly longer than the loader animation
+
+  return () => clearTimeout(timer);
+}, []);
+
   return (
     <>
       <CustomCursor />
-      <AnimatePresence>{loading ? <PageLoader onComplete={() => setLoading(false)} /> : null}</AnimatePresence>
+      <AnimatePresence>{loading ? <PageLoader
+  onComplete={() => {
+    console.log("Removing loader");
+    setLoading(false);
+  }}
+/> : null}</AnimatePresence>
       <RouteSwitcher />
     </>
   );
